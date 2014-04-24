@@ -1,4 +1,6 @@
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,19 +8,14 @@ import org.junit.Test;
 public class GameModelTest {
 
 	public GameModel gModel;
-
-	@Before
-	public void setup(){
-		
-	}
-	@Test
-	public void createClass() {
-		gModel = new GameModel();
-	}
 	
 	@Test
-	public void checkGameMode(){
-		gModel = new GameModel();
+	public void checkGameMode(){	
+		User mUser = mock(User.class);
+		gModel = new GameModel(mUser);
+		when(mUser.getGameMode()).thenReturn(0);
 		assertEquals(0, gModel.getGameMode());
+		when(mUser.getGameMode()).thenReturn(1);
+		assertEquals(1, gModel.getGameMode());
 	}
 }
