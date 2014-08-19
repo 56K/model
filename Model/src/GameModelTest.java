@@ -27,7 +27,7 @@ public class GameModelTest {
 
 	@Test
 	public void checkGameMode() {
-		// Beim ersten test wird 0 erwartet
+		// Beim ersten Test wird 0 erwartet
 		when(mockedUser.getGameMode()).thenReturn(0);
 		assertEquals(0, gModel.getGameMode());
 
@@ -41,6 +41,5 @@ public class GameModelTest {
 
 		when(mockedUser.getGameMode()).thenReturn(-3);
 		assertEquals(0, gModel.getGameMode());
-
 	}
 }
