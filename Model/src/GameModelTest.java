@@ -7,12 +7,14 @@ import org.junit.Test;
 
 public class GameModelTest {
 
-	public GameModel gModel;
-	public User mockedUser = mock(User.class);
+	private GameModel gModel;
+	private User mockedUser;
 	
 	@Before
+	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für alle Tests
 	public void setUp(){
-		gModel = new GameModel(mockedUser);
+		mockedUser = mock(User.class);	//Erstellt einen virtuellen User
+		gModel = new GameModel(mockedUser);	//Ertellt das GameModel mit dem virtuellen User
 	}
 	
 	@Test
