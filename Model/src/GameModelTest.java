@@ -9,29 +9,38 @@ public class GameModelTest {
 
 	private GameModel gModel;
 	private User mockedUser;
-	
+
 	@Before
-	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für alle Tests
-	public void setUp(){
-		mockedUser = mock(User.class);	//Erstellt einen virtuellen User
-		gModel = new GameModel(mockedUser);	//Ertellt das GameModel mit dem virtuellen User
+	// Diese Methode wird vor jedem Test ausgeführt. Gleiche
+	// Bedingungen für alle Tests
+	public void setUp() {
+		mockedUser = mock(User.class); // Erstellt einen virtuellen User
+		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
+											// virtuellen User
 	}
-	
+
 	@Test
-	public void checkGameMode(){		
-		//Beim ersten test wird 0 erwartet
+	public void createClass() {
+		mockedUser = mock(User.class);
+		GameModel gModel = new GameModel(mockedUser);
+	}
+
+	@Test
+	public void checkGameMode() {
+		// Beim ersten test wird 0 erwartet
 		when(mockedUser.getGameMode()).thenReturn(0);
 		assertEquals(0, gModel.getGameMode());
-		
-		//Hier wird der 2. und letzte erlaubte Wert 1 erwartet
+
+		// Hier wird der 2. und letzte erlaubte Wert 1 erwartet
 		when(mockedUser.getGameMode()).thenReturn(1);
 		assertEquals(1, gModel.getGameMode());
-		
-		//Bei ungültiger Rückgabe vom User wird der Standardmodus 0 gewählt
+
+		// Bei ungültiger Rückgabe vom User wird der Standardmodus 0 gewählt
 		when(mockedUser.getGameMode()).thenReturn(3);
 		assertEquals(0, gModel.getGameMode());
-		
+
 		when(mockedUser.getGameMode()).thenReturn(-3);
 		assertEquals(0, gModel.getGameMode());
+
 	}
 }
