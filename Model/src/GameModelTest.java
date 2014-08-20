@@ -45,8 +45,12 @@ public class GameModelTest {
 	public void checkUsername(){
 		when(mockedUser.getUsername()).thenReturn("Herbert");
 		assertEquals("Herbert", gModel.getUsername());
-		
+
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Benutzername", gModel.getUsername());
+
+		when(mockedUser.getUsername()).thenReturn("");
+		assertEquals("Benutzername", gModel.getUsername());
+		
 	}
 }

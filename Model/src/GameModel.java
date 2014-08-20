@@ -1,3 +1,4 @@
+
 public class GameModel {
 
 	private User user;
@@ -15,15 +16,16 @@ public class GameModel {
 	}
 
 	public String getUsername() {
-		if (user.getUsername() == null)
+		if (user.getUsername() == null || user.getUsername().isEmpty()) {
+			// JOptionPane.showMessageDialog(null,
+			//		"Kein Benutzername hinterlegt!", "Fehlermeldung",
+			//		JOptionPane.ERROR_MESSAGE);
+			// Hier nur Dialogbox, weil keine sinnvolle Referenz vorhanden
 			return "Benutzername";
-		
+		}
+/**
+ * Hier noch Zeichensiebung !
+ */
 		return user.getUsername();
 	}
 }
-
-/*
- * userSettings eigene Klasse -> fire Listener changeNameB2 Uunterpunkt im menü,
- * geht zurück ins menü feuert Action listener und somit wird mann zum ändern
- * gezwungen
- */
