@@ -7,10 +7,13 @@ public class GameModel {
 	}
 
 	public int getGameMode() {
-		
 	 //Bei ungültiger Rückgabe wird der Wert 0 gewählt 
 	 if (user.getGameMode()<0 || user.getGameMode() > 1) return 0;
 	 
 	 return user.getGameMode();
+	}
+	
+	public String getUsername(){
+		return user.getUsername();
 	}
 }

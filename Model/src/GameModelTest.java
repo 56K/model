@@ -18,6 +18,9 @@ public class GameModelTest {
 	}
 
 	@Test
+	/**
+	 * Hier wird die Methode getgameMode der Klasse GameModel getestet
+	 */
 	public void checkGameMode() {
 		// Beim ersten Test wird 0 erwartet
 		when(mockedUser.getGameMode()).thenReturn(0);
@@ -33,5 +36,14 @@ public class GameModelTest {
 
 		when(mockedUser.getGameMode()).thenReturn(-3);
 		assertEquals(0, gModel.getGameMode());
+	}
+	
+	@Test
+	/**
+	 * Hier wird die Methode getUsername der Klasse gameModel getestet;
+	 */
+	public void checkUsername(){
+		when(mockedUser.getUsername()).thenReturn("Herbert");
+		assertEquals("Herbert", gModel.getUsername());
 	}
 }
