@@ -40,10 +40,13 @@ public class GameModelTest {
 	
 	@Test
 	/**
-	 * Hier wird die Methode getUsername der Klasse gameModel getestet;
+	 * Hier wird die Methode getUsername der Klasse GameModel getestet;
 	 */
 	public void checkUsername(){
 		when(mockedUser.getUsername()).thenReturn("Herbert");
 		assertEquals("Herbert", gModel.getUsername());
+		
+		when(mockedUser.getUsername()).thenReturn(null);
+		assertEquals("Benutzername", gModel.getUsername());
 	}
 }
