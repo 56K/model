@@ -11,18 +11,10 @@ public class GameModelTest {
 	private User mockedUser;
 
 	@Before
-	// Diese Methode wird vor jedem Test ausgeführt. Gleiche
-	// Bedingungen für alle Tests
+	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für alle Tests
 	public void setUp() {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
-		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
-											// virtuellen User
-	}
-
-	@Test
-	public void createClass() {
-		mockedUser = mock(User.class);
-		GameModel gModel = new GameModel(mockedUser);
+		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem virtuellen User
 	}
 
 	@Test
