@@ -52,5 +52,21 @@ public class GameModelTest {
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Benutzername", gModel.getUsername());
 		
+		//Testfälle für Sonderzeichen
+		when(mockedUser.getUsername()).thenReturn("56k.reuter");
+		assertEquals("56k.reuter", gModel.getUsername());
+		
+		when(mockedUser.getUsername()).thenReturn("!Test?");
+		assertEquals("!Test?", gModel.getUsername());
+		
+		//Testfälle für Steuerzeichen
+		when(mockedUser.getUsername()).thenReturn("er b");
+		assertEquals("Benutzername", gModel.getUsername());
+		
+		when(mockedUser.getUsername()).thenReturn("er	b");
+		assertEquals("Benutzername", gModel.getUsername());
+		
+		when(mockedUser.getUsername()).thenReturn("er\nb");
+		assertEquals("Benutzername", gModel.getUsername());
 	}
 }
