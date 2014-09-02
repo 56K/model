@@ -72,7 +72,7 @@ public class GameModelTest {
 	
 	@Test
 	/**
-	 * 
+	 * Hier wird die getPointsAsString der Klasse Gamne Model
 	 */
 	public void checkGetPointsAsString(){
 		when(mockedUser.getPoints()).thenReturn(88);
