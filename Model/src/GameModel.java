@@ -7,6 +7,9 @@ public class GameModel {
 	}
 
 	public int getGameMode() {
+		/**
+		 * Diese Methode liefert den Spielmodus zurück. Aktuell 2 Modi: 0 und 1.
+		 */
 		// Bei ungültiger Rückgabe wird der Wert 0 gewählt
 		if (user.getGameMode() < 0 || user.getGameMode() > 1)
 			return 0;
@@ -25,5 +28,12 @@ public class GameModel {
 			return "Benutzername";
 
 		return user.getUsername();
+	}
+	
+	public String getPointsAsString(){
+		Integer points;
+		if ((points = user.getPoints()) < 0)
+			return "0";
+		return points.toString();
 	}
 }
