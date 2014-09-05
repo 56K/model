@@ -1,3 +1,4 @@
+package source_main_java;
 public interface User {
 
 	// Funktionsprototypen

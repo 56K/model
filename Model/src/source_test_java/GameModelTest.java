@@ -1,6 +1,9 @@
+package source_test_java;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import source_main_java.GameModel;
+import source_main_java.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,20 +64,20 @@ public class GameModelTest {
 		
 		//Testfälle für Steuerzeichen
 		when(mockedUser.getUsername()).thenReturn("er b");
-		assertEquals("Benutzername", gModel.getUsername());
+		assertEquals("er-b", gModel.getUsername());
 		
 		when(mockedUser.getUsername()).thenReturn("er	b");
-		assertEquals("Benutzername", gModel.getUsername());
+		assertEquals("er-b", gModel.getUsername());
 		
 		when(mockedUser.getUsername()).thenReturn("er\nb");
-		assertEquals("Benutzername", gModel.getUsername());
+		assertEquals("er-b", gModel.getUsername());
 	}
 	
 	@Test
 	/**
-	 * Hier wird die getPointsAsString der Klasse Gamne Model
+	 * Hier wird die getPointsAsString-Methode der Klasse GamneModel getestet
 	 */
-	public void checkGetPointsAsString(){
+	public void testGetPointsAsString(){
 		when(mockedUser.getPoints()).thenReturn(88);
 		assertEquals("88", gModel.getPointsAsString());
 		

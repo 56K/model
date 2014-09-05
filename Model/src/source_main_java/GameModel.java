@@ -1,3 +1,4 @@
+package source_main_java;
 public class GameModel {
 
 	private User user;
@@ -18,14 +19,11 @@ public class GameModel {
 	}
 
 	public String getUsername() {
-		if (user.getUsername() == null || user.getUsername().isEmpty()) {
-			// JOptionPane.showMessageDialog(null,
-			// "Kein Benutzername hinterlegt!", "Fehlermeldung",
-			// JOptionPane.ERROR_MESSAGE);
-			// Hier nur Dialogbox, weil keine sinnvolle Referenz vorhanden
+		if (user.getUsername() == null || user.getUsername().isEmpty()) 
 			return "Benutzername";
-		} else if (!user.getUsername().matches("\\S+"))
-			return "Benutzername";
+		
+		else if (!user.getUsername().matches("\\S+"))
+			return user.getUsername().replaceAll("\\s", "-");
 
 		return user.getUsername();
 	}
