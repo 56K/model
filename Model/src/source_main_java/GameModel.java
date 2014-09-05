@@ -1,4 +1,7 @@
 package source_main_java;
+
+import java.awt.event.ActionListener;
+
 public class GameModel {
 
 	private User user;
@@ -34,4 +37,32 @@ public class GameModel {
 			return "0";
 		return points.toString();
 	}
+	
+	public String getSeagalCountAsString(){
+		Integer count;
+		if ((count = user.getSeagalCount()) < 0)
+			return "0";
+		return count.toString();
+	}
+	
+	public String getNorrisCountAsString(){
+		Integer count;
+		if ((count = user.getNorrisCount()) < 0)
+			return "0";
+		return count.toString();
+	}
+	
+	public String getBronsonCountAsString(){
+		Integer count;
+		if ((count = user.getBronsonCount()) < 0)
+			return "0";
+		return count.toString();
+	}
+	
+	
+	
+	public void addInvalidUsernameListener(ActionListener invalidUsername){
+		invalidUsernameListener.add();
+	}
+
 }

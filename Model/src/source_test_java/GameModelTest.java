@@ -48,13 +48,13 @@ public class GameModelTest {
 	public void checkUsername(){
 		when(mockedUser.getUsername()).thenReturn("Herbert");
 		assertEquals("Herbert", gModel.getUsername());
-
+//------- to work on
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Benutzername", gModel.getUsername());
 
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Benutzername", gModel.getUsername());
-		
+//-------------------------------------------------------------------
 		//Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
 		assertEquals("56k.reuter", gModel.getUsername());
@@ -75,7 +75,7 @@ public class GameModelTest {
 	
 	@Test
 	/**
-	 * Hier wird die getPointsAsString-Methode der Klasse GamneModel getestet
+	 * Hier wird die getPointsAsString-Methode der Klasse GameModel getestet
 	 */
 	public void testGetPointsAsString(){
 		when(mockedUser.getPoints()).thenReturn(88);
@@ -84,4 +84,42 @@ public class GameModelTest {
 		when(mockedUser.getPoints()).thenReturn(-88);
 		assertEquals("0", gModel.getPointsAsString());
 	}
+	
+	@Test
+	/**
+	 * Hier wird die getSeagalCountAsString-Methode der Klasse GameModel getestet
+	 */
+	public void testGetSeagalCountAsString(){
+		when(mockedUser.getSeagalCount()).thenReturn(88);
+		assertEquals("88", gModel.getSeagalCountAsString());
+		
+		when(mockedUser.getSeagalCount()).thenReturn(-88);
+		assertEquals("0", gModel.getSeagalCountAsString());
+	}
+	
+	@Test
+	/**
+	 * Hier wird die getBronsonCountAsString-Methode der Klasse GameModel getestet
+	 */
+	public void testGetBronsonCountAsString(){
+		when(mockedUser.getBronsonCount()).thenReturn(88);
+		assertEquals("88", gModel.getBronsonCountAsString());
+		
+		when(mockedUser.getBronsonCount()).thenReturn(-88);
+		assertEquals("0", gModel.getBronsonCountAsString());
+	}
+	
+	@Test
+	/**
+	 * Hier wird die getNorrisCountAsString-Methode der Klasse GameModel getestet
+	 */
+	public void testGetNorrisCountAsString(){
+		when(mockedUser.getNorrisCount()).thenReturn(88);
+		assertEquals("88", gModel.getNorrisCountAsString());
+		
+		when(mockedUser.getNorrisCount()).thenReturn(-88);
+		assertEquals("0", gModel.getNorrisCountAsString());
+	}
+	
+	
 }

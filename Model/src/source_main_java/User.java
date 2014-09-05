@@ -5,4 +5,7 @@ public interface User {
 	public int getGameMode();
 	public String getUsername();
 	public int getPoints();
+	public int getSeagalCount();
+	public int getBronsonCount();
+	public int getNorrisCount();
 }
