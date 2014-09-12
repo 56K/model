@@ -1,13 +1,18 @@
 package source_main_java;
 
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import source_main_java.GameChangeEvent.EventType;
 
 public class GameModel {
 
 	private User user;
+	private List<GameListener> listeners;
 
 	public GameModel(User userArgs) {
 		user = userArgs;
+		this.listeners = new ArrayList<>();
 	}
 
 	public int getGameMode() {
@@ -22,47 +27,63 @@ public class GameModel {
 	}
 
 	public String getUsername() {
-		if (user.getUsername() == null || user.getUsername().isEmpty()) 
+		if (user.getUsername() == null || user.getUsername().isEmpty()){
+			fireGameEvent(new GameChangeEvent(EventType.INVALID_USERNAME, 0));
 			return "Benutzername";
-		
+		}
+
 		else if (!user.getUsername().matches("\\S+"))
 			return user.getUsername().replaceAll("\\s", "-");
 
 		return user.getUsername();
 	}
-	
-	public String getPointsAsString(){
+
+	public String getPointsAsString() {
 		Integer points;
 		if ((points = user.getPoints()) < 0)
 			return "0";
 		return points.toString();
 	}
-	
-	public String getSeagalCountAsString(){
+
+	public String getSeagalCountAsString() {
 		Integer count;
 		if ((count = user.getSeagalCount()) < 0)
 			return "0";
 		return count.toString();
 	}
-	
-	public String getNorrisCountAsString(){
+
+	public String getNorrisCountAsString() {
 		Integer count;
 		if ((count = user.getNorrisCount()) < 0)
 			return "0";
 		return count.toString();
 	}
-	
-	public String getBronsonCountAsString(){
+
+	public String getBronsonCountAsString() {
 		Integer count;
 		if ((count = user.getBronsonCount()) < 0)
 			return "0";
 		return count.toString();
 	}
+
 	
-	
-	
-	public void addInvalidUsernameListener(ActionListener invalidUsername){
-		invalidUsernameListener.add();
+	//Methoden zum steuern des GameEvent-Managements
+	protected void fireGameEvent(GameChangeEvent event) {
+		for (GameListener listener : listeners) {
+			listener.notify(event);
+		}
+	}
+
+	public void addGameListener(GameListener listener) {
+		listeners.add(listener);
+		if (user != null)
+			user.addGameListener(listener);
+	}
+
+	public void removeGameListener(GameListener listener) {
+		listeners.add(listener);
+		if (user != null)
+			user.removeGameListener(listener);
 	}
 
 }

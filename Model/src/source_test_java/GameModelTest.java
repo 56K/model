@@ -1,12 +1,21 @@
 package source_test_java;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-import source_main_java.GameModel;
-import source_main_java.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import source_main_java.GameChangeEvent;
+import source_main_java.GameChangeEvent.EventType;
+import source_main_java.GameListener;
+import source_main_java.GameModel;
+import source_main_java.User;
 
 public class GameModelTest {
 
@@ -14,10 +23,12 @@ public class GameModelTest {
 	private User mockedUser;
 
 	@Before
-	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für alle Tests
+	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für
+	// alle Tests
 	public void setUp() {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
-		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem virtuellen User
+		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
+											// virtuellen User
 	}
 
 	@Test
@@ -40,86 +51,90 @@ public class GameModelTest {
 		when(mockedUser.getGameMode()).thenReturn(-3);
 		assertEquals(0, gModel.getGameMode());
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird die Methode getUsername der Klasse GameModel getestet;
 	 */
-	public void checkUsername(){
+	public void checkUsername() {
 		when(mockedUser.getUsername()).thenReturn("Herbert");
 		assertEquals("Herbert", gModel.getUsername());
-//------- to work on
+		// ------- to work on
+
+		List<GameListener> list = new ArrayList();
+		List spy = spy(list);
+		spy.add(new GameChangeEvent(EventType.INVALID_USERNAME,0));
+
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Benutzername", gModel.getUsername());
 
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Benutzername", gModel.getUsername());
-//-------------------------------------------------------------------
-		//Testfälle für Sonderzeichen
+		// -------------------------------------------------------------------
+		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
 		assertEquals("56k.reuter", gModel.getUsername());
-		
+
 		when(mockedUser.getUsername()).thenReturn("!Test?");
 		assertEquals("!Test?", gModel.getUsername());
-		
-		//Testfälle für Steuerzeichen
+
+		// Testfälle für Steuerzeichen
 		when(mockedUser.getUsername()).thenReturn("er b");
 		assertEquals("er-b", gModel.getUsername());
-		
+
 		when(mockedUser.getUsername()).thenReturn("er	b");
 		assertEquals("er-b", gModel.getUsername());
-		
+
 		when(mockedUser.getUsername()).thenReturn("er\nb");
 		assertEquals("er-b", gModel.getUsername());
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird die getPointsAsString-Methode der Klasse GameModel getestet
 	 */
-	public void testGetPointsAsString(){
+	public void testGetPointsAsString() {
 		when(mockedUser.getPoints()).thenReturn(88);
 		assertEquals("88", gModel.getPointsAsString());
-		
+
 		when(mockedUser.getPoints()).thenReturn(-88);
 		assertEquals("0", gModel.getPointsAsString());
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird die getSeagalCountAsString-Methode der Klasse GameModel getestet
 	 */
-	public void testGetSeagalCountAsString(){
+	public void testGetSeagalCountAsString() {
 		when(mockedUser.getSeagalCount()).thenReturn(88);
 		assertEquals("88", gModel.getSeagalCountAsString());
-		
+
 		when(mockedUser.getSeagalCount()).thenReturn(-88);
 		assertEquals("0", gModel.getSeagalCountAsString());
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird die getBronsonCountAsString-Methode der Klasse GameModel getestet
 	 */
-	public void testGetBronsonCountAsString(){
+	public void testGetBronsonCountAsString() {
 		when(mockedUser.getBronsonCount()).thenReturn(88);
 		assertEquals("88", gModel.getBronsonCountAsString());
-		
+
 		when(mockedUser.getBronsonCount()).thenReturn(-88);
 		assertEquals("0", gModel.getBronsonCountAsString());
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird die getNorrisCountAsString-Methode der Klasse GameModel getestet
 	 */
-	public void testGetNorrisCountAsString(){
+	public void testGetNorrisCountAsString() {
 		when(mockedUser.getNorrisCount()).thenReturn(88);
 		assertEquals("88", gModel.getNorrisCountAsString());
-		
+
 		when(mockedUser.getNorrisCount()).thenReturn(-88);
 		assertEquals("0", gModel.getNorrisCountAsString());
 	}
-	
-	
+
 }
