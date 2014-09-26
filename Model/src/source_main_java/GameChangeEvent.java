@@ -1,10 +1,10 @@
 package source_main_java;
 
-public class GameChangeEvent {
+public class GameChangeEvent{
 	private EventType type;
 	private long newValue;
 
-	public GameChangeEvent(EventType type, long newValue) {
+	public GameChangeEvent(EventType type, long newValue){
 		this.type = type;
 		this.newValue = newValue;
 	}

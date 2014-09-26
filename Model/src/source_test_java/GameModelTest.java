@@ -2,14 +2,13 @@ package source_test_java;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import source_main_java.GameChangeEvent;
 import source_main_java.GameChangeEvent.EventType;
@@ -20,7 +19,10 @@ import source_main_java.User;
 public class GameModelTest {
 
 	private GameModel gModel;
+	@Mock
 	private User mockedUser;
+	@Mock
+	private GameListener mockedGameListener;
 
 	@Before
 	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für
@@ -59,18 +61,21 @@ public class GameModelTest {
 	public void checkUsername() {
 		when(mockedUser.getUsername()).thenReturn("Herbert");
 		assertEquals("Herbert", gModel.getUsername());
-		// ------- to work on
 
-		List<GameListener> list = new ArrayList();
-		List spy = spy(list);
-		spy.add(new GameChangeEvent(EventType.INVALID_USERNAME,0));
+		mockedGameListener = mock(GameListener.class);
+		gModel.addGameListener(mockedGameListener);
+		GameChangeEvent testEvent = new GameChangeEvent(
+				EventType.INVALID_USERNAME, 0);
 
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Benutzername", gModel.getUsername());
+		verify(mockedGameListener).notify(testEvent);
 
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Benutzername", gModel.getUsername());
-		// -------------------------------------------------------------------
+		verify(mockedGameListener).notify(testEvent);
+		Mockito.verifyNoMoreInteractions(mockedGameListener);
+		
 		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
 		assertEquals("56k.reuter", gModel.getUsername());
