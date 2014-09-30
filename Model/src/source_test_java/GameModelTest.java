@@ -32,7 +32,7 @@ public class GameModelTest {
 		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
 											// virtuellen User
 	}
-
+	
 	@Test
 	/**
 	 * Hier wird die Methode getGameMode der Klasse GameModel getestet
