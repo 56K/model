@@ -31,6 +31,7 @@ public class GameModelTest {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
 		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
 											// virtuellen User
+		
 	}
 	
 	@Test
