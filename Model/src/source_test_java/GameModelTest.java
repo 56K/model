@@ -1,13 +1,13 @@
 package source_test_java;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.internal.stubbing.answers.CallsRealMethods;
+import org.mockito.stubbing.Answer;
 
 import source_main_java.GameChangeEvent;
 import source_main_java.GameChangeEvent.EventType;
@@ -69,11 +69,11 @@ public class GameModelTest {
 
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Benutzername", gModel.getUsername());
-		verify(mockedGameListener).notify(testEvent);
-
+		//verify(mockedGameListener).notify(anyObject());
+		
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Benutzername", gModel.getUsername());
-		verify(mockedGameListener).notify(testEvent);
+		verify(mockedGameListener, times(2)).notify(testEvent);
 
 		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
