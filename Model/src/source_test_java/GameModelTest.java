@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import source_main_java.GameChangeEvent;
 import source_main_java.GameChangeEvent.EventType;
@@ -31,9 +30,9 @@ public class GameModelTest {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
 		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
 											// virtuellen User
-		
+
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird die Methode getGameMode der Klasse GameModel getestet
@@ -75,8 +74,7 @@ public class GameModelTest {
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Benutzername", gModel.getUsername());
 		verify(mockedGameListener).notify(testEvent);
-		Mockito.verifyNoMoreInteractions(mockedGameListener);
-		
+
 		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
 		assertEquals("56k.reuter", gModel.getUsername());
