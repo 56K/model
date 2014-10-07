@@ -25,7 +25,9 @@ public class GameChangeEvent implements Comparable<GameChangeEvent> {
 	public int compareTo(GameChangeEvent o) {
 		if (this.getType() == o.getType())
 			return 0;
-		return this.getType().compareTo(o.getType());
+		
+		return 1;
+		//return this.getType().compareTo(o.getType());
 	}
 	@Override
 	public String toString() {
@@ -33,7 +35,7 @@ public class GameChangeEvent implements Comparable<GameChangeEvent> {
 		if (this.getType() == EventType.INVALID_USERNAME)
 			result.append("Invalid Username, "+ this.getNewValue());
 		else if (this.getType() == EventType.BRONSON_CHANGED)
-			result.append("Bronson, "+ this.getNewValue());
+			result.append("Bronson changed, "+ this.getNewValue());
 		return result.toString();
 	}
 }

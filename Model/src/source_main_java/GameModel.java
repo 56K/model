@@ -29,7 +29,7 @@ public class GameModel {
 	public String getUsername() {
 		if (user.getUsername() == null || user.getUsername().isEmpty()){
 			fireGameEvent(new GameChangeEvent(EventType.INVALID_USERNAME, 0));
-			return "Benutzername";
+			return "Invalid Username";
 		}
 
 		else if (!user.getUsername().matches("\\S+"))
