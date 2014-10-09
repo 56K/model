@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import source_main_java.GameChangeEvent;
 import source_main_java.GameChangeEvent.EventType;
@@ -29,6 +28,7 @@ public class GameModelTest {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
 		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
 											// virtuellen User
+		
 	}
 
 	
