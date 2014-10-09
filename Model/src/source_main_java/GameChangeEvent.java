@@ -31,7 +31,7 @@ public class GameChangeEvent implements Comparable<GameChangeEvent> {
 	}
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder();		
 		if (this.getType() == EventType.INVALID_USERNAME)
 			result.append("Invalid Username, "+ this.getNewValue());
 		else if (this.getType() == EventType.BRONSON_CHANGED)

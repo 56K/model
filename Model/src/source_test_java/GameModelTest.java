@@ -1,7 +1,6 @@
 package source_test_java;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,9 +19,7 @@ import source_main_java.User;
 public class GameModelTest {
 
 	private GameModel gModel;
-	@Mock
 	private User mockedUser;
-	@Mock
 	private GameListener mockedGameListener;
 	
 	@Before

@@ -81,7 +81,7 @@ public class GameModel {
 	}
 
 	public void removeGameListener(GameListener listener) {
-		listeners.add(listener);
+		listeners.remove(listener);
 		if (user != null)
 			user.removeGameListener(listener);
 	}
