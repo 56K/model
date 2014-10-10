@@ -3,7 +3,7 @@ package spheres;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.DocumentEvent.EventType;
+import spheres.GameChangeEvent.EventType;
 
 public class GameModel {
 

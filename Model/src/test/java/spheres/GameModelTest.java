@@ -8,10 +8,10 @@ import static org.mockito.Mockito.when;
 
 import java.awt.Color;
 
-import javax.swing.event.DocumentEvent.EventType;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import spheres.GameChangeEvent.EventType;
 
 public class GameModelTest {
 
