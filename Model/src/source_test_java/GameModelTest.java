@@ -20,7 +20,7 @@ public class GameModelTest {
 	private GameModel gModel;
 	private User mockedUser;
 	private GameListener mockedGameListener;
-	
+
 	@Before
 	// Diese Methode wird vor jedem Test ausgeführt. Gleiche Bedingungen für
 	// alle Tests
@@ -28,10 +28,9 @@ public class GameModelTest {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
 		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
 											// virtuellen User
-		
+
 	}
 
-	
 	@Test
 	/**
 	 * Hier wird die Methode getGameMode der Klasse GameModel getestet
@@ -63,16 +62,14 @@ public class GameModelTest {
 
 		mockedGameListener = mock(GameListener.class);
 		gModel.addGameListener(mockedGameListener);
-		GameChangeEvent testEvent = new GameChangeEvent(
-				EventType.INVALID_USERNAME, 0);
 
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Invalid Username", gModel.getUsername());
-		//verify(mockedGameListener).notify(testEvent);
 		
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Invalid Username", gModel.getUsername());
-		verify(mockedGameListener, times(2)).notify(testEvent);
+		verify(mockedGameListener, times(2)).notify(new GameChangeEvent(
+				EventType.INVALID_USERNAME, 0));
 
 		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
@@ -139,5 +136,4 @@ public class GameModelTest {
 		when(mockedUser.getNorrisCount()).thenReturn(-88);
 		assertEquals("0", gModel.getNorrisCountAsString());
 	}
-
 }
