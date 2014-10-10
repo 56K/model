@@ -27,7 +27,7 @@ public class GameModel {
 	}
 
 	public String getUsername() {
-		if (user.getUsername() == null || user.getUsername().isEmpty()){
+		if (user.getUsername() == null || user.getUsername().isEmpty()) {
 			fireGameEvent(new GameChangeEvent(EventType.INVALID_USERNAME, 0));
 			return "Invalid Username";
 		}
@@ -38,6 +38,7 @@ public class GameModel {
 		return user.getUsername();
 	}
 
+	// ----------------- Punktestände als String -------------------------------
 	public String getPointsAsString() {
 		Integer points;
 		if ((points = user.getPoints()) < 0)
@@ -66,8 +67,13 @@ public class GameModel {
 		return count.toString();
 	}
 
-	
-	//Methoden zum steuern des GameEvent-Managements
+	// ------ Farbwahl des Users transportieren -------------------------------
+
+	public ColorSet getColorSet() {
+		return user.getColorSet();
+	}
+
+	// Methoden zum steuern des GameEvent-Managements
 	protected void fireGameEvent(GameChangeEvent event) {
 		for (GameListener listener : listeners) {
 			listener.notify(event);

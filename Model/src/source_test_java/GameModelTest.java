@@ -5,10 +5,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import source_main_java.ColorSet;
 import source_main_java.GameChangeEvent;
 import source_main_java.GameChangeEvent.EventType;
 import source_main_java.GameListener;
@@ -135,5 +137,20 @@ public class GameModelTest {
 
 		when(mockedUser.getNorrisCount()).thenReturn(-88);
 		assertEquals("0", gModel.getNorrisCountAsString());
+	}
+	
+	@Test
+	/**
+	 * Hier wird der transport der Farbeinstellung des users getestet
+	 */
+	public void testGetColorSet(){
+		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
+		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
+		
+		when(mockedUser.getColorSet()).thenReturn(ColorSet.DARK);
+		assertEquals(ColorSet.DARK, gModel.getColorSet());
+		
+		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
+		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
 	}
 }

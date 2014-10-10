@@ -14,6 +14,8 @@ public interface User {
 	public int getBronsonCount();
 
 	public int getNorrisCount();
+	
+	public ColorSet getColorSet();
 
 	public void fireGameEvent(GameChangeEvent event);
 
