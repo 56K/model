@@ -5,7 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import junit.framework.Assert;
+
+import java.awt.Color;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -144,13 +145,34 @@ public class GameModelTest {
 	 * Hier wird der transport der Farbeinstellung des users getestet
 	 */
 	public void testGetColorSet(){
+		// ColorSet NORMAL
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
 		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
+		
+		assertEquals(ColorSet.NORMAL.getColor(0),Color.GRAY);
+		assertEquals(ColorSet.NORMAL.getColor(1),Color.RED);
+		assertEquals(ColorSet.NORMAL.getColor(2),Color.BLUE);
+		assertEquals(ColorSet.NORMAL.getColor(3),Color.GREEN);
+		assertEquals(ColorSet.NORMAL.getColor(4),Color.YELLOW);
+
+		
+		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
+		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
+		
+		assertEquals(ColorSet.BRIGHT.getColor(0),Color.GRAY.brighter());
+		assertEquals(ColorSet.BRIGHT.getColor(1),Color.RED.brighter());
+		assertEquals(ColorSet.BRIGHT.getColor(2),Color.BLUE.brighter());
+		assertEquals(ColorSet.BRIGHT.getColor(3),Color.GREEN.brighter());
+		assertEquals(ColorSet.BRIGHT.getColor(4),Color.YELLOW.brighter());
+		
 		
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.DARK);
 		assertEquals(ColorSet.DARK, gModel.getColorSet());
 		
-		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
-		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
+		assertEquals(ColorSet.DARK.getColor(0),Color.BLACK);
+		assertEquals(ColorSet.DARK.getColor(1),Color.RED.darker());
+		assertEquals(ColorSet.DARK.getColor(2),Color.BLUE.darker());
+		assertEquals(ColorSet.DARK.getColor(3),Color.GREEN.darker());
+		assertEquals(ColorSet.DARK.getColor(4),Color.YELLOW.darker());
 	}
 }
