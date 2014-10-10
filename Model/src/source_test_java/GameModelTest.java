@@ -145,7 +145,7 @@ public class GameModelTest {
 	 * Hier wird der transport der Farbeinstellung des users getestet
 	 */
 	public void testGetColorSet(){
-		// ColorSet NORMAL
+		//---------------normal color theme------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
 		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
 		
@@ -154,8 +154,7 @@ public class GameModelTest {
 		assertEquals(ColorSet.NORMAL.getColor(2),Color.BLUE);
 		assertEquals(ColorSet.NORMAL.getColor(3),Color.GREEN);
 		assertEquals(ColorSet.NORMAL.getColor(4),Color.YELLOW);
-
-		
+		//---------------brigth color theme------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
 		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
 		
@@ -164,8 +163,7 @@ public class GameModelTest {
 		assertEquals(ColorSet.BRIGHT.getColor(2),Color.BLUE.brighter());
 		assertEquals(ColorSet.BRIGHT.getColor(3),Color.GREEN.brighter());
 		assertEquals(ColorSet.BRIGHT.getColor(4),Color.YELLOW.brighter());
-		
-		
+		//---------------dark color theme------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.DARK);
 		assertEquals(ColorSet.DARK, gModel.getColorSet());
 		
