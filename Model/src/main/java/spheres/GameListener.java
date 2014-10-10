@@ -1,4 +1,4 @@
-package source_main_java;
+package spheres;
 
 public interface GameListener {
 	void notify(GameChangeEvent event);

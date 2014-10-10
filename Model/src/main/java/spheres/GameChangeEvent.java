@@ -1,4 +1,4 @@
-package source_main_java;
+package spheres;
 
 public class GameChangeEvent {
 	private EventType type;

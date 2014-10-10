@@ -1,9 +1,9 @@
-package source_main_java;
+package spheres;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import source_main_java.GameChangeEvent.EventType;
+import javax.swing.event.DocumentEvent.EventType;
 
 public class GameModel {
 

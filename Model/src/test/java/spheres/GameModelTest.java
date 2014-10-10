@@ -1,4 +1,4 @@
-package source_test_java;
+package spheres;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -8,15 +8,10 @@ import static org.mockito.Mockito.when;
 
 import java.awt.Color;
 
+import javax.swing.event.DocumentEvent.EventType;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import source_main_java.ColorSet;
-import source_main_java.GameChangeEvent;
-import source_main_java.GameChangeEvent.EventType;
-import source_main_java.GameListener;
-import source_main_java.GameModel;
-import source_main_java.User;
 
 public class GameModelTest {
 
@@ -31,7 +26,6 @@ public class GameModelTest {
 		mockedUser = mock(User.class); // Erstellt einen virtuellen User
 		gModel = new GameModel(mockedUser); // Ertellt das GameModel mit dem
 											// virtuellen User
-
 	}
 
 	@Test
@@ -145,7 +139,7 @@ public class GameModelTest {
 	 * Hier wird der transport der Farbeinstellung des users getestet
 	 */
 	public void testGetColorSet(){
-		//---------------normal color theme------------
+		//----------------------normal color theme------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
 		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
 		
@@ -154,7 +148,7 @@ public class GameModelTest {
 		assertEquals(ColorSet.NORMAL.getColor(2),Color.BLUE);
 		assertEquals(ColorSet.NORMAL.getColor(3),Color.GREEN);
 		assertEquals(ColorSet.NORMAL.getColor(4),Color.YELLOW);
-		//---------------brigth color theme------------
+		//---------------------brigth color theme-------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
 		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
 		
@@ -163,7 +157,7 @@ public class GameModelTest {
 		assertEquals(ColorSet.BRIGHT.getColor(2),Color.BLUE.brighter());
 		assertEquals(ColorSet.BRIGHT.getColor(3),Color.GREEN.brighter());
 		assertEquals(ColorSet.BRIGHT.getColor(4),Color.YELLOW.brighter());
-		//---------------dark color theme------------
+		//----------------------dark color theme----------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.DARK);
 		assertEquals(ColorSet.DARK, gModel.getColorSet());
 		

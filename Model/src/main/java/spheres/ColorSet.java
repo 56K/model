@@ -1,4 +1,4 @@
-package source_main_java;
+package spheres;
 
 import java.awt.Color;
 import java.util.Random;
