@@ -73,6 +73,12 @@ public class GameModel {
 		return user.getColorSet();
 	}
 
+	public User getUser(){
+		return user;
+	}
+	
+	
+	
 	// Methoden zum steuern des GameEvent-Managements
 	protected void fireGameEvent(GameChangeEvent event) {
 		for (GameListener listener : listeners) {

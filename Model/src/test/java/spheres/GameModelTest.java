@@ -1,9 +1,10 @@
 package spheres;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.awt.Color;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -139,12 +140,6 @@ public class GameModelTest {
 		//----------------------normal color theme------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
 		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
-		
-		assertEquals(ColorSet.NORMAL.getColor(0),Color.GRAY);
-		assertEquals(ColorSet.NORMAL.getColor(1),Color.RED);
-		assertEquals(ColorSet.NORMAL.getColor(2),Color.BLUE);
-		assertEquals(ColorSet.NORMAL.getColor(3),Color.GREEN);
-		assertEquals(ColorSet.NORMAL.getColor(4),Color.YELLOW);
 		//---------------------brigth color theme-------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
 		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
@@ -152,4 +147,11 @@ public class GameModelTest {
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.DARK);
 		assertEquals(ColorSet.DARK, gModel.getColorSet());
 	}
+	
+	@Test
+	public void testGetUser(){
+		assertNotNull(gModel.getUser());
+		assertEquals(gModel.getUser(), mockedUser);
+	}
+	
 }
