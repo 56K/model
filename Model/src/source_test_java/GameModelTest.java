@@ -64,7 +64,7 @@ public class GameModelTest {
 		mockedGameListener = mock(GameListener.class);
 		gModel.addGameListener(mockedGameListener);
 		GameChangeEvent testEvent = new GameChangeEvent(
-				EventType.BRONSON_CHANGED, 1);
+				EventType.INVALID_USERNAME, 0);
 
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Invalid Username", gModel.getUsername());

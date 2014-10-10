@@ -1,6 +1,6 @@
 package source_main_java;
 
-public class GameChangeEvent implements Comparable<GameChangeEvent> {
+public class GameChangeEvent {
 	private EventType type;
 	private long newValue;
 	
@@ -22,14 +22,6 @@ public class GameChangeEvent implements Comparable<GameChangeEvent> {
 	}
 
 	@Override
-	public int compareTo(GameChangeEvent o) {
-		if (this.getType() == o.getType())
-			return 0;
-		
-		return 1;
-		//return this.getType().compareTo(o.getType());
-	}
-	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();		
 		if (this.getType() == EventType.INVALID_USERNAME)
@@ -37,5 +29,17 @@ public class GameChangeEvent implements Comparable<GameChangeEvent> {
 		else if (this.getType() == EventType.BRONSON_CHANGED)
 			result.append("Bronson changed, "+ this.getNewValue());
 		return result.toString();
+	}
+	
+	@Override
+	public boolean equals(Object object){
+		if (object == null)
+			return false;
+		if (object.getClass() != this.getClass())
+			return false;
+		GameChangeEvent otherEvent = (GameChangeEvent) object;
+		if (otherEvent.getType()==this.getType() && otherEvent.getNewValue() == this.getNewValue())
+			return true;
+		return false;
 	}
 }
