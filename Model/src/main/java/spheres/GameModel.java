@@ -1,7 +1,10 @@
 package spheres;
 
+import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import spheres.GameChangeEvent.EventType;
 
@@ -10,11 +13,15 @@ public class GameModel {
 	private User user;
 	private List<GameListener> listeners;
 	private int drawsLeft;
+	private long timeLeft;
+	private Ball[][] balls;
 
 	public GameModel(User userArgs) {
 		user = userArgs;
 		this.listeners = new ArrayList<>();
 		drawsLeft = 30;
+		timeLeft = TimeUnit.SECONDS.toMillis(60);
+		balls = new Ball[6][6];
 	}
 
 	public int getGameMode() {
@@ -77,33 +84,81 @@ public class GameModel {
 		return user.getColorSet();
 	}
 
-	public User getUser(){
+	public User getUser() {
 		return user;
-	} 
-	
-	// ------------Manipulation der verbleibenden Züge--------------------
-	public int getDrawsLeft(){
-		if (drawsLeft<0 || drawsLeft > 30){
-			setDrawsLeft(0);
-			return drawsLeft = 0;
-		}
+	}
+
+	// ------------Zugspiel---------------------------------
+	public int getDrawsLeft() {
 		return drawsLeft;
 	}
-	
-	public void subDraws(){
-		setDrawsLeft(getDrawsLeft()-1);
+
+	public void subDraws() {
+		setDrawsLeft(getDrawsLeft() - 1);
 	}
-	
-	public void setDrawsLeft(int draws){
-		if (draws <0 || draws>30)
+
+	public void setDrawsLeft(int draws) {
+		if (draws < 0 || draws > 30)
 			draws = 0;
 		drawsLeft = draws;
-        fireGameEvent(new GameChangeEvent(EventType.DRAWS_CHANGED, draws));
-        if(draws<=0  && getGameMode()==1)
-            fireGameEvent(new GameChangeEvent(EventType.GAME_OVER, 0));
+		fireGameEvent(new GameChangeEvent(EventType.DRAWS_CHANGED, draws));
+		if (draws <= 0 && getGameMode() == 1)
+			fireGameEvent(new GameChangeEvent(EventType.GAME_OVER, 0));
+	}
+
+	// --------------Zeitspiel-------------------------------
+	public long getTimeLeft() {
+		return timeLeft;
+	}
+
+	public void setTimeLeft(long time) {
+		if (time < 0 || time > 60000)
+			time = 0;
+		timeLeft = time;
+		fireGameEvent(new GameChangeEvent(EventType.TIME_CHANGED, time));
+		if (time <= 0 && getGameMode() == 0)
+			fireGameEvent(new GameChangeEvent(EventType.GAME_OVER, 0));
+	}
+
+	// ----------------Ball-Operationen--------------
+	public void addBall(Ball ballArgs) {
+		balls[ballArgs.getPos().x][ballArgs.getPos().y] = ballArgs;
 	}
 	
+	public Ball getBall(int x, int y){
+		return balls[x][y];
+	}
+	public Ball getBall(Point there){
+		return balls[there.x][there.y];
+	}
 	
+	public Ball[][] getBalls(){
+		return balls;
+	}
+	
+	public void deleteBall(Ball ball) {
+        Point pos = ball.getPos();
+        balls[pos.x][pos.y] = null;
+        for (int i = pos.y - 1; i >= 0; i--) {
+            Ball current = balls[pos.x][i];
+            current.setPos(new Point(pos.x, i + 1));
+            balls[pos.x][i + 1] = current;
+        }
+        balls[pos.x][0] = new Ball(pos.x, 0, getColorSet().newRandomColor());
+        user.addInGamePoints(1);
+        fireGameEvent(new GameChangeEvent(EventType.POINTS_CHANGED, user.getInGamePoints()));
+    }
+	
+	 public void deleteColor(Color ballColor) {
+	        Ball[][] balls2 = getBalls();
+	        for (Ball[] balls : balls2) {
+	            for (Ball ball : balls) {
+	                if (ball.getBallColor().equals(ballColor))
+	                    deleteBall(ball);
+	            }
+	        }
+	    }
+
 	// Methoden zum steuern des GameEvent-Managements
 	protected void fireGameEvent(GameChangeEvent event) {
 		for (GameListener listener : listeners) {

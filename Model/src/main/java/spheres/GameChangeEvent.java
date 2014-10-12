@@ -28,6 +28,8 @@ public class GameChangeEvent {
 			result.append("Invalid Username, " + this.getNewValue());
 		else if (this.getType() == EventType.BRONSON_CHANGED)
 			result.append("Bronson changed, " + this.getNewValue());
+		else if (this.getType() == EventType.POINTS_CHANGED)
+			result.append("Points changed, " + this.getNewValue());
 		return result.toString();
 	}
 

@@ -8,6 +8,10 @@ public interface User {
 	public String getUsername();
 
 	public int getPoints();
+	
+	public int getInGamePoints();
+	
+	public void addInGamePoints(int points);
 
 	public int getSeagalCount();
 

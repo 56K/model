@@ -1,10 +1,15 @@
 package spheres;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.awt.Color;
+import java.awt.Point;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +70,8 @@ public class GameModelTest {
 		assertEquals("Invalid Username", gModel.getUsername());
 		verify(mockedGameListener, times(2)).notify(
 				new GameChangeEvent(EventType.INVALID_USERNAME, 0));
+
+		gModel.removeGameListener(mockedGameListener);
 
 		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
@@ -161,6 +168,7 @@ public class GameModelTest {
 	public void testDraws() {
 		mockedGameListener = mock(GameListener.class);
 		gModel.addGameListener(mockedGameListener);
+		when(mockedUser.getGameMode()).thenReturn(1);
 
 		// Standardwert vor einem Spiel: 30 Züge
 		assertEquals(30, gModel.getDrawsLeft());
@@ -172,26 +180,144 @@ public class GameModelTest {
 			assertEquals(30 - i, gModel.getDrawsLeft());
 		}
 		//
-		when(mockedUser.getGameMode()).thenReturn(1);
+
 		// Der letzte Spielzug wird getätigt
 		gModel.subDraws();
-		// Das Spiel ist zu Ende		
+		// Das Spiel ist zu Ende
 		// Verhalten von setDrawsLeft(draws) bei falscher Eingabe
 		gModel.setDrawsLeft(10);
 		assertEquals(10, gModel.getDrawsLeft());
-		
+
 		// zu hohe Zugzahl
 		gModel.setDrawsLeft(40);
 		assertEquals(0, gModel.getDrawsLeft());
-		
+
 		// negative Zugzahl
 		gModel.setDrawsLeft(-2);
 		assertEquals(0, gModel.getDrawsLeft());
 		verify(mockedGameListener, times(3)).notify(
-			new GameChangeEvent(EventType.DRAWS_CHANGED, 0));
+				new GameChangeEvent(EventType.DRAWS_CHANGED, 0));
 		verify(mockedGameListener, times(3)).notify(
 				new GameChangeEvent(EventType.GAME_OVER, 0));
-		
+
+		gModel.removeGameListener(mockedGameListener);
 	}
 
+	@Test
+	public void testTime() {
+		mockedGameListener = mock(GameListener.class);
+		gModel.addGameListener(mockedGameListener);
+		when(mockedUser.getGameMode()).thenReturn(0);
+
+		// Standardwert vor dem Spiel
+		assertEquals(60000, gModel.getTimeLeft());
+
+		// Spiel wird simuliert
+		for (int i = 1000; i < 60000; i += 1000) {
+			gModel.setTimeLeft(60000 - i);
+			verify(mockedGameListener).notify(
+					new GameChangeEvent(EventType.TIME_CHANGED, 60000 - i));
+		}
+		// noch eine Sekunde übrig
+		assertEquals(1000, gModel.getTimeLeft());
+
+		// Zeit wird 0 ->Spiel zu Ende
+		gModel.setTimeLeft(0);
+		assertEquals(0, gModel.getTimeLeft());
+
+		// zu hohe zeit
+		gModel.setTimeLeft(100000);
+		assertEquals(0, gModel.getTimeLeft());
+
+		// negative Zeit
+		gModel.setTimeLeft(-1000);
+		assertEquals(0, gModel.getTimeLeft());
+
+		// Die erwarteten notify()-Aufrufe
+		verify(mockedGameListener, times(3)).notify(
+				new GameChangeEvent(EventType.TIME_CHANGED, 0));
+		verify(mockedGameListener, times(3)).notify(
+				new GameChangeEvent(EventType.GAME_OVER, 0));
+
+		gModel.removeGameListener(mockedGameListener);
+	}
+
+	@Test
+	public void testBallAddGet() {
+		// Hier wird gezeigt das die Routinen zum hinzufügen eines Balles sauber
+		// arbeiten
+		Ball testBall = new Ball(new Point(2, 3), Color.RED);
+		gModel.addBall(testBall);
+		assertEquals(testBall, gModel.getBall(new Point(2, 3)));
+		assertEquals(testBall, gModel.getBall(2, 3));
+	}
+
+	@Test
+	public void testDeleteBall() {
+		mockedGameListener = mock(GameListener.class);
+		gModel.addGameListener(mockedGameListener);
+
+		// 4 Testbälle, hier wird getestet ob ein Ball gelöscht wird und ob die
+		// darüberliegen Bälle nach "unten Fallen".
+		Ball testBall1 = new Ball(new Point(2, 0), Color.RED);
+		Ball testBall2 = new Ball(new Point(2, 1), Color.GRAY);
+		Ball testBall3 = new Ball(new Point(2, 2), Color.GREEN);
+		Ball testBall4 = new Ball(new Point(2, 3), Color.BLUE);
+		Ball testBall5;
+
+		gModel.addBall(testBall1);
+		gModel.addBall(testBall2);
+		gModel.addBall(testBall3);
+		gModel.addBall(testBall4);
+
+		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
+		when(mockedUser.getInGamePoints()).thenReturn(1);
+		gModel.deleteBall(testBall4);
+		verify(mockedGameListener).notify(
+				new GameChangeEvent(EventType.POINTS_CHANGED, 1));
+
+		testBall5 = gModel.getBall(2, 0);
+		assertEquals(Color.RED, gModel.getBall(2, 1).getBallColor());
+		assertEquals(Color.GRAY, gModel.getBall(2, 2).getBallColor());
+		assertEquals(Color.GREEN, gModel.getBall(2, 3).getBallColor());
+
+		// Diese Zeile beweist das ein neuer ball angelegt wurde, und das die
+		// Farbe sich zufällig ergibt
+		System.out.println(testBall5.getBallColor().toString());
+
+		gModel.removeGameListener(mockedGameListener);
+	}
+
+	@Test
+	public void testDeletColor() {
+		mockedGameListener = mock(GameListener.class);
+		gModel.addGameListener(mockedGameListener);
+
+		// zunächst das Array mit Bällen gleicher Farbe füllen
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				gModel.addBall(new Ball(i, j, Color.GRAY));
+			}
+		}
+		// 4 testbälle gleicher Farbe anlegen und demm Array hinzufügen
+		gModel.addBall(new Ball(1, 0, Color.RED));
+		gModel.addBall(new Ball(5, 2, Color.RED));
+		gModel.addBall(new Ball(0, 3, Color.RED));
+		gModel.addBall(new Ball(4, 5, Color.RED));
+
+		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
+		when(mockedUser.getInGamePoints()).thenReturn(1);
+		gModel.deleteColor(Color.RED);
+		verify(mockedGameListener, times(4)).notify(
+				new GameChangeEvent(EventType.POINTS_CHANGED, 1));
+
+		gModel.removeGameListener(mockedGameListener);
+	}
+	
+	@Test
+	public void testGetBalls(){
+		Ball [][] testBalls = new Ball[6][6];
+		assertNotNull(gModel.getBalls());
+		assertEquals(testBalls, gModel.getBalls());
+	}
 }
