@@ -60,11 +60,11 @@ public class GameModelTest {
 
 		when(mockedUser.getUsername()).thenReturn(null);
 		assertEquals("Invalid Username", gModel.getUsername());
-		
+
 		when(mockedUser.getUsername()).thenReturn("");
 		assertEquals("Invalid Username", gModel.getUsername());
-		verify(mockedGameListener, times(2)).notify(new GameChangeEvent(
-				EventType.INVALID_USERNAME, 0));
+		verify(mockedGameListener, times(2)).notify(
+				new GameChangeEvent(EventType.INVALID_USERNAME, 0));
 
 		// Testfälle für Sonderzeichen
 		when(mockedUser.getUsername()).thenReturn("56k.reuter");
@@ -131,27 +131,67 @@ public class GameModelTest {
 		when(mockedUser.getNorrisCount()).thenReturn(-88);
 		assertEquals("0", gModel.getNorrisCountAsString());
 	}
-	
+
 	@Test
 	/**
 	 * Hier wird der transport der Farbeinstellung des users getestet
 	 */
-	public void testGetColorSet(){
-		//----------------------normal color theme------------------
+	public void testGetColorSet() {
+		// Fehlerfall, es kommt null vom User
+		when(mockedUser.getColorSet()).thenReturn(null);
+		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
+		// ----------------------normal color theme------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.NORMAL);
 		assertEquals(ColorSet.NORMAL, gModel.getColorSet());
-		//---------------------brigth color theme-------------------
+		// ---------------------brigth color theme-------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.BRIGHT);
 		assertEquals(ColorSet.BRIGHT, gModel.getColorSet());
-		//----------------------dark color theme----------------------
+		// ----------------------dark color theme----------------------
 		when(mockedUser.getColorSet()).thenReturn(ColorSet.DARK);
 		assertEquals(ColorSet.DARK, gModel.getColorSet());
 	}
-	
+
 	@Test
-	public void testGetUser(){
+	public void testGetUser() {
 		assertNotNull(gModel.getUser());
-		assertEquals(gModel.getUser(), mockedUser);
+		assertSame(gModel.getUser(), mockedUser);
 	}
-	
+
+	@Test
+	public void testDraws() {
+		mockedGameListener = mock(GameListener.class);
+		gModel.addGameListener(mockedGameListener);
+
+		// Standardwert vor einem Spiel: 30 Züge
+		assertEquals(30, gModel.getDrawsLeft());
+		// Ein normaler Spielablauf soll simuliert werden:
+		for (int i = 1; i < 30; i++) {
+			gModel.subDraws();
+			verify(mockedGameListener).notify(
+					new GameChangeEvent(EventType.DRAWS_CHANGED, 30 - i));
+			assertEquals(30 - i, gModel.getDrawsLeft());
+		}
+		//
+		when(mockedUser.getGameMode()).thenReturn(1);
+		// Der letzte Spielzug wird getätigt
+		gModel.subDraws();
+		// Das Spiel ist zu Ende		
+		// Verhalten von setDrawsLeft(draws) bei falscher Eingabe
+		gModel.setDrawsLeft(10);
+		assertEquals(10, gModel.getDrawsLeft());
+		
+		// zu hohe Zugzahl
+		gModel.setDrawsLeft(40);
+		assertEquals(0, gModel.getDrawsLeft());
+		
+		// negative Zugzahl
+		gModel.setDrawsLeft(-2);
+		assertEquals(0, gModel.getDrawsLeft());
+		verify(mockedGameListener, times(3)).notify(
+			new GameChangeEvent(EventType.DRAWS_CHANGED, 0));
+		verify(mockedGameListener, times(3)).notify(
+				new GameChangeEvent(EventType.GAME_OVER, 0));
+		
+	}
+
 }

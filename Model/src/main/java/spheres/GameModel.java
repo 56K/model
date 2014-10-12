@@ -9,10 +9,12 @@ public class GameModel {
 
 	private User user;
 	private List<GameListener> listeners;
+	private int drawsLeft;
 
 	public GameModel(User userArgs) {
 		user = userArgs;
 		this.listeners = new ArrayList<>();
+		drawsLeft = 30;
 	}
 
 	public int getGameMode() {
@@ -70,13 +72,36 @@ public class GameModel {
 	// ------ Farbwahl des Users transportieren -------------------------------
 
 	public ColorSet getColorSet() {
+		if (user.getColorSet() == null)
+			return ColorSet.NORMAL;
 		return user.getColorSet();
 	}
 
 	public User getUser(){
 		return user;
+	} 
+	
+	// ------------Manipulation der verbleibenden Züge--------------------
+	public int getDrawsLeft(){
+		if (drawsLeft<0 || drawsLeft > 30){
+			setDrawsLeft(0);
+			return drawsLeft = 0;
+		}
+		return drawsLeft;
 	}
 	
+	public void subDraws(){
+		setDrawsLeft(getDrawsLeft()-1);
+	}
+	
+	public void setDrawsLeft(int draws){
+		if (draws <0 || draws>30)
+			draws = 0;
+		drawsLeft = draws;
+        fireGameEvent(new GameChangeEvent(EventType.DRAWS_CHANGED, draws));
+        if(draws<=0  && getGameMode()==1)
+            fireGameEvent(new GameChangeEvent(EventType.GAME_OVER, 0));
+	}
 	
 	
 	// Methoden zum steuern des GameEvent-Managements
