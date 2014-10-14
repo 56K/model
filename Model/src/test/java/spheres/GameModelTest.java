@@ -259,13 +259,16 @@ public class GameModelTest {
 
 		// 4 Testbälle, hier wird getestet ob ein Ball gelöscht wird und ob die
 		// darüberliegen Bälle nach "unten Fallen".
-		Ball testBall1 = new Ball(new Point(2, 0), Color.RED);
+		Ball mockedTestBall1 = mock(Ball.class);
 		Ball testBall2 = new Ball(new Point(2, 1), Color.GRAY);
 		Ball testBall3 = new Ball(new Point(2, 2), Color.GREEN);
 		Ball testBall4 = new Ball(new Point(2, 3), Color.BLUE);
 		Ball testBall5;
 
-		gModel.addBall(testBall1);
+		when(mockedTestBall1.getPos()).thenReturn(new Point(2, 0));
+		when(mockedTestBall1.getBallColor()).thenReturn(Color.RED);
+
+		gModel.addBall(mockedTestBall1);
 		gModel.addBall(testBall2);
 		gModel.addBall(testBall3);
 		gModel.addBall(testBall4);
@@ -289,7 +292,7 @@ public class GameModelTest {
 	}
 
 	@Test
-	public void testDeletColor() {
+	public void testDeleteColor() {
 		mockedGameListener = mock(GameListener.class);
 		gModel.addGameListener(mockedGameListener);
 
@@ -313,10 +316,10 @@ public class GameModelTest {
 
 		gModel.removeGameListener(mockedGameListener);
 	}
-	
+
 	@Test
-	public void testGetBalls(){
-		Ball [][] testBalls = new Ball[6][6];
+	public void testGetBalls() {
+		Ball[][] testBalls = new Ball[6][6];
 		assertNotNull(gModel.getBalls());
 		assertEquals(testBalls, gModel.getBalls());
 	}
